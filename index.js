@@ -8,6 +8,8 @@ app.get("/", (req, res) => {
   );
 });
 
+// use query search
+
 const users = [
   { id: 0, name: "suhag", address: "tangail", language: "Js" },
   { id: 1, name: "Sanji", address: "Comilla", language: "Js" },
@@ -18,9 +20,18 @@ const users = [
 ];
 
 app.get("/users", (req, res) => {
-  res.send(users);
+  const search = req.query.search;
+  if (search) {
+    const searchResult = users.filter((user) =>
+      user.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+    );
+    res.send(searchResult);
+  } else {
+    res.send(users);
+  }
 });
 
+// dynamic api
 app.get("/users/:id", (req, res) => {
   const id = req.params.id;
   const user = users[id];
