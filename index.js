@@ -4,6 +4,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(cors());
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send(
@@ -32,6 +33,17 @@ app.get("/users", (req, res) => {
   } else {
     res.send(users);
   }
+});
+
+// post
+
+app.post("/users", (req, res) => {
+  console.log("hitting the post", req.body);
+  const newUser = req.body;
+  newUser.id = users.length;
+  users.push(newUser);
+  // res.send(JSON.stringify(newUser));
+  res.json(newUser);
 });
 
 // dynamic api
